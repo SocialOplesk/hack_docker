@@ -41,7 +41,7 @@
 4. las versiones slim siempre se deben seleccionar sobre una version latest
    
 ```
-❌
+❌ Mal
 FROM ubuntu:latest
 
 ---
