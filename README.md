@@ -18,13 +18,12 @@
 ```
 |Hacks | Details | 
 |----------|---------|
-| H-1      | Enviar |
-| H-2      | Enviar|
-| H-3      | Hacer | 
-
+| H-1      | image óptima |
+| H-2      | APT correcto |
+| H-3      | no root | 
 <br/> 
 
-## 🏆 H-1 (aplicar la image optima)
+## 🏆 H-1 (aplicar la image óptima)
 
 ```
 
