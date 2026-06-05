@@ -111,7 +111,7 @@ RUN apt install -y curl
 RUN rm -rf /var/lib/apt/lists/*
 
 ✅ Bien (1 sola capa)
-RUN apt-get update && \
+RUN apt-get update -y && \
     apt-get install -y --no-install-recommends --no-install-suggests curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
