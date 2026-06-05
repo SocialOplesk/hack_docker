@@ -66,6 +66,13 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 ```
+⚡RUN . . . 🚀
+```
+docker build -t hacker-1-from-image .
+
+docker run -d -p 3000:80 --name hacker-1-server hacker-1-from-image:v1
+```
+
 
 <br />
 <br />
@@ -124,6 +131,12 @@ EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
 
+```
+⚡RUN . . . 🚀
+```
+docker build -t hacker-2-apt:v1 .
+
+docker run -d -p 5000:80 --name hacker-2-server hacker-2-apt:v1
 ```
 
 <br />
@@ -237,6 +250,13 @@ EXPOSE 8080
 
 CMD ["python", "app.py"]
 
+```
+
+⚡RUN . . . 🚀
+```
+docker build -t hacker-3-no-root:v1 .
+
+docker run -d -p 8080:8080 --name hacker-3-server hacker-3-no-root:v1
 ```
 
 
