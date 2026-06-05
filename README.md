@@ -23,7 +23,7 @@
 | H-8      | Volver |
 <br/> 
 
-## 🏆 H-1(aplicar la image optima)
+## 🏆 H-1 (aplicar la image optima)
 
 1. Crear un directorio llamado docker_1
 
@@ -51,7 +51,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 
 
-## 🏆 H-2(usar apt con el estilo correcto en docker)
+## 🏆 H-2 (usar apt con el estilo correcto en docker)
 1. Crear un directorio llamado docker_2
 
 2. Dentro del directorio docker_2 crear el archivo Dockerfile
@@ -93,32 +93,101 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 
 
-## 🏆 H-3(Usuario no rott)
+## 🏆 H-3 (Usuario no root)
 
 1. Crear un directorio llamado docker_3
 
 2. Dentro del directorio docker_3 crear el archivo Dockerfile
 
-3. Debes crear el Dockerfile sin elegir un FROM de image incorrecto
-   
-4. las versiones slim siempre se deben seleccionar sobre una version latest
-   
+3. pip install --no-cache-dir -r: la bandera --no-cache-dir le dice a pip: <br/>
+ "Descarga el paquete, instálalo y borra inmediatamente el archivo descargado; no me dejes basura en la carpeta de caché".
+
+4. verifica que funciona:
+```
+  consulta la API al tner el contenedor listo
+  http://localhost:8080/app adicional
+
+ Verificar el usuario no root, luego de tener el contenedor listo
+ mediante la temrinal: docker exec mi-container whoami
+# Respuesta: appuser (no root)
+```
+
+5. Debes crear el archivo requirements.txt e internamente debe tener: flask==2.3.3
+```
+flask==2.3.3
+```
+
+6. Script de la aplicación flask que vas a emplear para este hack.
+```
+import os
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return f"¡Hola desde flask corriendo en Docker!"
+
+@app.route('/app')
+def health():
+    return {"status": "ok", "app": "flask app"}
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=???)
+```
+
+7. Siempre evitar tener el server modo debug en el Dockerfile
+```
+# ❌ debug=True activado en un script de Flask dentro de Docker <br/>
+     (especialmente si va a producción) es uno de los errores más peligrosos y comunes.
+     ⚡ app.run(host='0.0.0.0', port=PORT, debug=True)
+
+
+# ✅ debug=False es importante (foreground, no recarga automática)
+# ✅ debug=False es obligatorio en Docker.
+     ⚡ app.run(host='0.0.0.0', port=PORT, debug=False)
+```
+
+8. Ejemplo de como utilizar en Dockerfile el modo no root
 ```
 # ✅ Crea y usa usuario no root
 RUN useradd -m -u 1000 appuser
 USER appuser
+
+# Cambiar al usuario no root
+USER appuser
+
 WORKDIR /home/appuser/app
---------------------------
 
-FROM ?
+---
 
-RUN apt update -y && apt install nginx -y
+# ✅ Crea y usa usuario no root
+RUN useradd -m -u 1000 appuser && \
+    chown -R appuser:appuser /app
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Cambiar al usuario no root
+USER appuser
 ```
 
+9. Script de Dockerfile a tratar
+```
+
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN useradd ?
+
+USER ?
+
+EXPOSE 8080
+
+CMD ["python", "app.py"]
+```
 
 
 
