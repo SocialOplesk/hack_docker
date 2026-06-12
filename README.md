@@ -47,7 +47,7 @@ FROM ubuntu:latest
 ---
 
 ✅ Bien
-FROM ubuntu:24.04-slim
+FROM ubuntu:24.04
 ```
 
 <br/>
@@ -56,7 +56,7 @@ FROM ubuntu:24.04-slim
 
 ```
 
-FROM ?
+FROM ❓
 
 RUN apt update -y && apt install nginx -y
 
@@ -110,7 +110,6 @@ docker run -d -p 3000:80 --name hacker-1-server hacker-1-from-image:v1
 ❌ Mal (crea 3 capas)
 RUN apt update
 RUN apt install -y curl
-RUN rm -rf /var/lib/apt/lists/*
 
 ✅ Bien (1 sola capa)
 RUN apt-get update -y && \
@@ -124,9 +123,9 @@ RUN apt-get update -y && \
 
 ```
 
-FROM ?
+FROM ❓
 
-RUN ?
+RUN ❓
 
 EXPOSE 80
 
@@ -229,7 +228,7 @@ def health():
     return {"status": "ok", "app": "flask app"}
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=???)
+    app.run(host='0.0.0.0', port=8080, debug=❓)
 ```
 
 <br/>
@@ -243,11 +242,11 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install ?
+RUN pip install ❓
 
-RUN useradd ?
+RUN useradd ❓
 
-USER ?
+USER ❓
 
 EXPOSE 8080
 
